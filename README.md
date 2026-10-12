@@ -24,7 +24,9 @@ project to a GitHub, GitLab, or Bitbucket repository, then create a Blueprint
 on Render and select that repository. Render builds the service and provides
 its public `onrender.com` URL when deployment finishes. The first build installs
 the Python packages and spaCy language model; the sentence-transformer model
-downloads the first time someone analyzes a resume.
+is cached during the build so the first analysis does not need to download it.
+The application loads its ML libraries on demand and runs the embedding model
+with one CPU thread to keep the free instance responsive.
 
 Free Render services can take a little time to wake after inactivity. Resume
 PDFs are processed in memory and are not stored by the app.

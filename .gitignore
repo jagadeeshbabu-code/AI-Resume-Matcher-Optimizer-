@@ -3,5 +3,6 @@
 __pycache__/
 *.py[cod]
 .streamlit/secrets.toml
+.hf-cache/
 .env
 streamlit*.log

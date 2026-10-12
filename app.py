@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import streamlit as st
-from sentence_transformers import SentenceTransformer
-import spacy
 
 from resume_matcher import (
     build_suggestions,
@@ -20,13 +18,21 @@ SPACY_MODEL = "en_core_web_sm"
 
 
 @st.cache_resource(show_spinner="Loading semantic matching model...")
-def load_embedding_model() -> SentenceTransformer:
-    return SentenceTransformer(MODEL_NAME)
+def load_embedding_model():
+    """Load the CPU model only when analysis is requested."""
+    import torch
+    from sentence_transformers import SentenceTransformer
+
+    # A single thread avoids CPU oversubscription on small hosted instances.
+    torch.set_num_threads(1)
+    return SentenceTransformer(MODEL_NAME, device="cpu")
 
 
 @st.cache_resource(show_spinner="Loading spaCy language model...")
 def load_spacy_model():
     try:
+        import spacy
+
         return spacy.load(SPACY_MODEL)
     except OSError as error:
         raise RuntimeError(
