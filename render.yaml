@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ai-resume-matcher
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python -m spacy download en_core_web_sm
+    startCommand: streamlit run app.py --server.address 0.0.0.0 --server.port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: STREAMLIT_BROWSER_GATHER_USAGE_STATS
+        value: "false"

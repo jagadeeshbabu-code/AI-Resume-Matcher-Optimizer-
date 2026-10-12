@@ -1,0 +1,5 @@
+streamlit==1.65.0
+sentence-transformers==6.1.0
+spacy==3.8.16
+PyMuPDF==1.28.2
+numpy==2.5.4
